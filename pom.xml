@@ -5,19 +5,24 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>io.vertx</groupId>
-  <artifactId>maven-simplest</artifactId>
+  <groupId>playground</groupId>
+  <artifactId>vertx-playground</artifactId>
   <version>3.3.3</version>
 
   <properties>
     <!-- the main class -->
-    <exec.mainClass>io.vertx.example.HelloWorldEmbedded</exec.mainClass>
+    <exec.mainClass>playground.IssuesServer</exec.mainClass>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-web</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>
