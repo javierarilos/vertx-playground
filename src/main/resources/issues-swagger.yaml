@@ -1,0 +1,75 @@
+swagger: '2.0'
+info:
+  title: Issues REST API
+  version: "0.0.1"
+basePath: '/v1'
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /issue/{user_id}:
+    get:
+      operationId: issues.get_issue
+      summary: Gets an Issue
+      parameters:
+        - name: user_id
+          in: path
+          description: User id, owning the issue
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response, returns the issue.
+          schema:
+            $ref: '#/definitions/Issue'
+        401:
+          description: Not authorized
+        404:
+          description: Issue not found
+
+  /issue:
+    get:
+      operationId: issues.get_all_issues
+      summary: Gets all the user issues
+      responses:
+        200:
+          description: Successful response, returns issues for the user
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Issue'
+        401:
+          description: Not authorized
+        404:
+          description: Issue not found
+    post:
+      operationId: issues.post_issue
+      summary: Creates a new Issue
+      parameters:
+        - name: issue
+          in: body
+          schema:
+            $ref: '#/definitions/Issue'
+      responses:
+        201:
+          description: Successful Issue creation. Returns the created issue
+          schema:
+            $ref: '#/definitions/Issue'
+        401:
+          description: Not authorized
+
+definitions:
+  Issue:
+    type: object
+    description: An user issue
+    required:
+      - issue_desc
+    properties:
+      user_id:
+        type: string
+        description: User identifier
+      issue_desc:
+        type: string
+        description: Issue description
