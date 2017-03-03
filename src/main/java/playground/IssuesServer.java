@@ -16,6 +16,13 @@ import java.util.Map;
 public class IssuesServer {
 public static Map<String, Object> issues = new HashMap<>();
 
+  public static JsonObject getIssueJson(String userId) {
+    Object issueDesc = issues.getOrDefault(userId, "");
+    return new JsonObject()
+                .put("user_id", userId)
+                .put("issue_desk", issueDesc);
+  }
+
   public static void main(String[] args) {
     Vertx vertx = Vertx.vertx();
 
@@ -29,11 +36,19 @@ public static Map<String, Object> issues = new HashMap<>();
     };
 
 
-    Handler<RoutingContext> getIssuesHandler = routingContext -> {
+    Handler<RoutingContext> getAllIssuesHandler = routingContext -> {
       routingContext.response()
           .setStatusCode(200)
           .putHeader("Content-Type", "application/json")
           .end(new JsonObject(issues).encode());
+    };
+
+    Handler<RoutingContext> getIssueHandler = routingContext -> {
+      String userId = routingContext.request().getParam("userId");
+      routingContext.response()
+          .setStatusCode(200)
+          .putHeader("Content-Type", "application/json")
+          .end(getIssueJson(userId).encode());
     };
 
     Handler<RoutingContext> newIssueHandler  = routingContext -> {
@@ -44,16 +59,17 @@ public static Map<String, Object> issues = new HashMap<>();
       String userId = body.getString("user_id");
       String issueDesc = body.getString("issue_desc");
       issues.put(userId, issueDesc);
-      
+
       routingContext.response()
           .setStatusCode(201)
           .putHeader("Content-Type", "application/json")
-          .end(new JsonObject(issues).encode());
+          .end(getIssueJson(userId).encode());
     };
 
     Router router = Router.router(vertx);
-    router.route().handler(BodyHandler.create());
-    router.route(HttpMethod.GET, "/issue").handler(getIssuesHandler);
+    router.route().handler(BodyHandler.create());  // mandatory to get the body in other handlers.
+    router.route(HttpMethod.GET, "/issue").handler(getAllIssuesHandler);
+    router.route(HttpMethod.GET, "/issue/:userId").handler(getIssueHandler);
     router.route(HttpMethod.POST, "/issue").handler(newIssueHandler);
     router.route().handler(sayHiHandler);
 
