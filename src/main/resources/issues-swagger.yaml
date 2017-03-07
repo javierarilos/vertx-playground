@@ -11,7 +11,7 @@ produces:
 paths:
   /issue/{user_id}:
     get:
-      operationId: issues.get_issue
+      operationId: playground.issues.GetIssue
       summary: Gets an Issue
       parameters:
         - name: user_id
@@ -31,7 +31,7 @@ paths:
 
   /issue:
     get:
-      operationId: issues.get_all_issues
+      operationId: playground.issues.getAllIssues
       summary: Gets all the user issues
       responses:
         200:
@@ -45,7 +45,7 @@ paths:
         404:
           description: Issue not found
     post:
-      operationId: issues.post_issue
+      operationId: playground.issues.PostIssue
       summary: Creates a new Issue
       parameters:
         - name: issue
