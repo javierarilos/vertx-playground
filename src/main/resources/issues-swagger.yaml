@@ -31,7 +31,7 @@ paths:
 
   /issue:
     get:
-      operationId: playground.issues.getAllIssues
+      operationId: playground.issues.GetAllIssues
       summary: Gets all the user issues
       responses:
         200:
