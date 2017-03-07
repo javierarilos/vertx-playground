@@ -11,7 +11,7 @@
 
   <properties>
     <!-- the main class -->
-    <exec.mainClass>playground.IssuesServer</exec.mainClass>
+    <exec.mainClass>playground.VertxServerFromSwagger</exec.mainClass>
   </properties>
 
   <dependencies>
